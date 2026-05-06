@@ -1,6 +1,8 @@
 public class Main {
 
     public Card[] deck;
+    Player player1;
+    Player dealer;
 
     public static void main(String[] args) {
         Main blackjack = new Main();
@@ -9,8 +11,10 @@ public class Main {
     }
 
     public Main(){
+        player1 = new Player("John");
+        dealer = new Player("Bob");
         deck = new Card[52];
-        for (int i = 4; i < deck.length; ++i){
+        for (int i = 0; i < deck.length; ++i){
                 if( i /13 ==0) {
                     deck[i] = new Card(i, "spades", false);
                 } else if(i/13==1){
@@ -22,6 +26,17 @@ public class Main {
                 }
                 //if i ==14, i%14=1 --> the card number we want
         }
+        shuffle();
+        for(int i = 0; i < 2; ++i){
+            player1.hand[i] = deck[i];
+            System.out.println(player1.hand[i].value);
+        }
+        for(int i = 0; i < 2; ++i){
+            dealer.hand[i] = deck[i+2];
+            System.out.println(dealer.hand[i].value);
+        }
+
+
 
     }
     public void shuffle(){
