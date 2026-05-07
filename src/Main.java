@@ -1,7 +1,7 @@
 public class Main {
 
     public Card[] deck;
-    Player player1;
+    Player player;
     Player dealer;
 
     public static void main(String[] args) {
@@ -11,8 +11,8 @@ public class Main {
     }
 
     public Main(){
-        player1 = new Player("John");
-        dealer = new Player("Bob");
+        player = new Player(1);
+        dealer = new Player(2);
         deck = new Card[52];
         for (int i = 0; i < deck.length; ++i){
                 if( i /13 ==0) {
@@ -27,14 +27,16 @@ public class Main {
                 //if i ==14, i%14=1 --> the card number we want
         }
         shuffle();
-        for(int i = 0; i < 2; ++i){
-            player1.hand[i] = deck[i];
-            System.out.println(player1.hand[i].value);
+
+        for(int i = 0; i < player.hand.length; ++i) {
+            dealer.addCard(deck[dealer.numCard + i]);
+            player.addCard(deck[player.numCard + i]);
+            player.addCard(deck[player.numCard + i]);
         }
-        for(int i = 0; i < 2; ++i){
-            dealer.hand[i] = deck[i+2];
-            System.out.println(dealer.hand[i].value);
-        }
+
+
+
+
 
 
 
