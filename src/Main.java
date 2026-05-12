@@ -1,10 +1,12 @@
+import java.util.Scanner;
+
 public class Main {
 
     public Card[] deck;
     Player player;
     Player dealer;
-    int valuePlayer = 0;
-    int valueDealer = 0;
+
+    Scanner sc;
 
     public static void main(String[] args) {
         Main blackjack = new Main();
@@ -13,6 +15,7 @@ public class Main {
     }
 
     public Main(){
+        sc = new Scanner(System.in);
         player = new Player(1);
         dealer = new Player(2);
         deck = new Card[52];
@@ -29,37 +32,56 @@ public class Main {
                 //if i ==14, i%14=1 --> the card number we want
         }
         shuffle();
-
-
+        //adding the cards to the deck of cards --> numCards track # of cards each player has
         dealer.addCard(deck[dealer.numCard]);
-        dealer.hand[0].isUp = true;
         dealer.addCard(deck[dealer.numCard]);
         for(int i = 0; i < dealer.numCard; ++i){
-            valueDealer += dealer.hand[i].value + 1;
+            if(i == 0){
+                dealer.hand[i].isUp = true;
+            }
+            else{
+                dealer.hand[i].isUp = false;
+            }
         }
         shuffle();
         player.addCard(deck[player.numCard]);
         player.addCard(deck[player.numCard]);
+        valueCards();
+        //waiting for input
+        System.out.println("-----------------");
+        System.out.println("Player 1's Cards are");
         for(int i = 0; i < player.numCard; ++i){
-            valuePlayer += player.hand[i].value + 1;
+            player.hand[i].printCard();
         }
-
-
-        for(int i = 0; i < dealer.numCard; ++i) {
-            if(dealer.hand[i].isUp == true) {
-                dealer.hand[i].printCard();
-            }
-        }
-        player.printPlayer();
-        System.out.println(valuePlayer);
-
-
-
+        playersTurn();
 
 
 
 
     }
+    public void valueCards(){
+        System.out.println("-----Dealer Cards-----");
+        for(int i = 0; i < dealer.numCard; ++i){
+            if(dealer.hand[i].isUp){
+                dealer.hand[i].printCard();
+            }else{
+                System.out.println("*hidden card*");
+            }
+        }
+        dealer.valueCards();
+
+        System.out.println("-----Player Cards-----");
+        for(int i = 0; i < player.numCard; ++i){
+
+
+            player.hand[i].printCard();
+
+        }
+        player.valueCards();
+    }
+
+
+
     public void shuffle(){
         for(int i = 0; i < deck.length; ++i){
             int randNum = (int)(Math.random() * 52);
@@ -72,5 +94,30 @@ public class Main {
 
         }
     }
+    public void playersTurn(){
+        System.out.println("Do you want to [h]it or [s]tand?");
+        String input = sc.nextLine();
+        if(input.equals("h")){
+            player.hit = true;
+            player.addCard(deck[player.numPlayer]);
+
+            if(player.value < 21){
+                dealersTurn();
+            }
+            if(player.value == 21){
+                System.out.println("You win!");
+            }
+            if(player.value > 21){
+                player.busted();
+            }
+        }
+
+
+    }
+
+    public void dealersTurn(){
+        System.out.println("hi");
+    }
+
 
 }

@@ -25,4 +25,6 @@ public class Card {
             System.out.println((value + 1) + " of " + suit);
         }
     }
+
+
 }
