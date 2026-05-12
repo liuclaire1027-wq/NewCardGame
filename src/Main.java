@@ -3,6 +3,8 @@ public class Main {
     public Card[] deck;
     Player player;
     Player dealer;
+    int valuePlayer = 0;
+    int valueDealer = 0;
 
     public static void main(String[] args) {
         Main blackjack = new Main();
@@ -28,11 +30,28 @@ public class Main {
         }
         shuffle();
 
-        for(int i = 0; i < player.hand.length; ++i) {
-            dealer.addCard(deck[dealer.numCard + i]);
-            player.addCard(deck[player.numCard + i]);
-            player.addCard(deck[player.numCard + i]);
+
+        dealer.addCard(deck[dealer.numCard]);
+        dealer.hand[0].isUp = true;
+        dealer.addCard(deck[dealer.numCard]);
+        for(int i = 0; i < dealer.numCard; ++i){
+            valueDealer += dealer.hand[i].value + 1;
         }
+        shuffle();
+        player.addCard(deck[player.numCard]);
+        player.addCard(deck[player.numCard]);
+        for(int i = 0; i < player.numCard; ++i){
+            valuePlayer += player.hand[i].value + 1;
+        }
+
+
+        for(int i = 0; i < dealer.numCard; ++i) {
+            if(dealer.hand[i].isUp == true) {
+                dealer.hand[i].printCard();
+            }
+        }
+        player.printPlayer();
+        System.out.println(valuePlayer);
 
 
 
