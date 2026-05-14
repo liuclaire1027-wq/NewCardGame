@@ -25,6 +25,11 @@ public class Player {
         }
         System.out.println(value);
     }
+    public void valueCardsnotPrint(){
+        for (int i = 0; i < numCard; ++i){
+            value += hand[i].value + 1;
+        }
+    }
 
     public void printPlayer(){
         for(int i = 0; i < numCard; ++i){

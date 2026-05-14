@@ -47,17 +47,17 @@ public class Main {
                 dealer.hand[i].isUp = false;
             }
         }
-        //shuffle();
+
         player.addCard(deck[tempCards]);
         tempCards++;
         player.addCard(deck[tempCards]);
         tempCards++;
-        //shuffle();
+
         player2.addCard(deck[tempCards]);
         tempCards++;
         player2.addCard(deck[tempCards]);
         tempCards++;
-        valueCards();
+        valuePrintCards();
         //waiting for input
         System.out.println("-----------------");
         System.out.println("Player 1's Cards are");
@@ -79,7 +79,7 @@ public class Main {
 
 
     }
-    public void valueCards(){
+    public void valuePrintCards(){
         System.out.println("-----Dealer Cards-----");
         for(int i = 0; i < dealer.numCard; ++i){
             if(dealer.hand[i].isUp){
@@ -88,22 +88,80 @@ public class Main {
                 System.out.println("*hidden card*");
             }
         }
-        dealer.valueCards();
+        dealer.valueCardsnotPrint();
 
         System.out.println("-----Player 1's Cards-----");
         for(int i = 0; i < player.numCard; ++i){
-
-
             player.hand[i].printCard();
-
         }
         player.valueCards();
         System.out.println("-----Player 2's Cards-----");
         for(int i = 0; i < player2.numCard; ++i){
-
             player2.hand[i].printCard();
         }
         player2.valueCards();
+    }
+    public void restartGame(){
+        tempCards = 0;
+        for(int i = 0; i<player.numCard;++i){
+            player.hand[i] = null;
+        }
+        player.value = 0;
+        player.numCard =0;
+        for(int i = 0; i< player2.numCard; ++i){
+            player2.hand[i] = null;
+        }
+        player2.value = 0;
+        player2.numCard = 0;
+        for(int i = 0; i < dealer.numCard; ++i){
+            dealer.hand[i] = null;
+        }
+        dealer.value = 0;
+        dealer.numCard =0;
+        shuffle();
+        //adding the cards to the deck of cards --> numCards track # of cards each player has
+        dealer.addCard(deck[tempCards]);
+        tempCards++;
+        dealer.addCard(deck[tempCards]);
+        tempCards++;
+        for(int i = 0; i < dealer.numCard; ++i){
+            if(i == 0){
+                dealer.hand[i].isUp = true;
+            }
+            else{
+                dealer.hand[i].isUp = false;
+            }
+        }
+
+        player.addCard(deck[tempCards]);
+        tempCards++;
+        player.addCard(deck[tempCards]);
+        tempCards++;
+
+        player2.addCard(deck[tempCards]);
+        tempCards++;
+        player2.addCard(deck[tempCards]);
+        tempCards++;
+        System.out.println("-----------NEW GAME-----------");
+        valuePrintCards();
+        //waiting for input
+        System.out.println("-----------------");
+        System.out.println("Player 1's Cards are");
+        for(int i = 0; i < player.numCard; ++i){
+            player.hand[i].printCard();
+        }
+
+        System.out.println("-----------------");
+        playersTurn(player);
+        System.out.println("-----------------");
+        System.out.println("Player 2's Cards are");
+        for(int i = 0; i < player2.numCard; ++i){
+            player2.hand[i].printCard();
+        }
+        System.out.println("-----------------");
+        playersTurn(player2);
+
+
     }
 
 
@@ -130,6 +188,9 @@ public class Main {
                 player.addCard(deck[tempCards]);
                 tempCards++;
                 player.value = 0;
+                System.out.println("The card you drawed was:");
+                player.hand[player.numCard-1].printCard();
+                System.out.println("The total value of your cards is now:");
                 player.valueCards();
 
                 if (player.value == 21) {
@@ -178,13 +239,26 @@ public class Main {
                 player2.addCard(deck[tempCards]);
                 tempCards++;
                 player2.value = 0;
+                System.out.println("The card you drawed was:");
+                player2.hand[player2.numCard-1].printCard();
+                System.out.println("The total value of your cards is now:");
                 player2.valueCards();
 
                 if (player2.value == 21) {
                     System.out.println("You win!");
+                    System.out.println("Press r to restart");
+                    String restart = sc.nextLine();
+                    if(restart.equals("r")){
+                        restartGame();
+                    }
                 }
                 if (player2.value > 21) {
                     player2.busted();
+                    System.out.println("Press r to restart");
+                    String restart = sc.nextLine();
+                    if(restart.equals("r")){
+                        restartGame();
+                    }
                 } else {
                     playersTurn(player2);
                 }
@@ -201,7 +275,7 @@ public class Main {
         if(dealer.value < 16) {
             dealer.addCard(deck[dealer.numCard]);
             dealer.value=0;
-            dealer.valueCards();
+            dealer.valueCardsnotPrint();
 
         }
         if (dealer.value == 21) {
@@ -235,9 +309,16 @@ public class Main {
             if (player2.value == dealer.value) {
                 System.out.println("Player 2 and Dealer tied!");
             }
+            System.out.println("The value of the dealers cards was " + dealer.value);
+            System.out.println("Press r to restart");
+            String input = sc.nextLine();
+            if(input.equals("r")){
+                restartGame();
+            }
 
         }
-        System.out.println("The value of the dealers cards was " + dealer.value);
+
+
     }
 
 
