@@ -7,6 +7,7 @@ public class Player {
     public int numCard;
     boolean bust = false;
     int value = 0;
+    int tempCards=0;
 
 
 
@@ -18,6 +19,7 @@ public class Player {
 
     }
     public void valueCards(){
+        value = 0;
         for (int i = 0; i < numCard; ++i){
             value += hand[i].value + 1;
         }
@@ -36,9 +38,11 @@ public class Player {
     }
 
     public void busted(){
-        if(bust == true){
-            System.out.println("You lose!");
-        }
+        System.out.println("You lose!");
+
+    }
+    public void dealerBusted(){
+        System.out.println("Dealer was busted!");
     }
 
 
