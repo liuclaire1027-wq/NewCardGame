@@ -18,12 +18,13 @@ public class Player {
         numCard = 0;
 
     }
-    public void valueCards(){
+    public int valueCards(){
         value = 0;
         for (int i = 0; i < numCard; ++i){
             value += hand[i].value + 1;
         }
-        System.out.println(value);
+        System.out.println("The total value is " + value);
+        return value;
     }
     public void valueCardsnotPrint(){
         for (int i = 0; i < numCard; ++i){
