@@ -163,6 +163,7 @@ public class Main {
         }
         player2.valueCards();
         System.out.println("-----------------");
+
         playersTurn(player2);
 
 
@@ -208,6 +209,7 @@ public class Main {
                 }
             }
             if (input.equals("s")) {
+
                 if (player.value > 21) {
                     player.busted();
                     playersTurn(player2);
@@ -215,33 +217,10 @@ public class Main {
                     dealersTurn(player);
                 }
             }
-            for(int i = 0; i < dealer.numCard; i++){
-                dealer.hand[i] = null;
-            }
-            dealer.numCard = 0;
-            dealer.value = 0;
-            dealer.addCard(deck[tempCards]);
-            tempCards++;
-            dealer.addCard(deck[tempCards]);
-            tempCards++;
-            for(int i = 0; i < dealer.numCard; ++i){
-                if(i == 0){
-                    dealer.hand[i].isUp = true;
-                }
-                else{
-                    dealer.hand[i].isUp = false;
-                }
-            }
-            System.out.println("-----New Dealer Cards-----");
-            for(int i = 0; i < dealer.numCard; ++i){
-                if(dealer.hand[i].isUp){
-                    dealer.hand[i].printCard();
-                }else{
-                    System.out.println("*hidden card*");
-                }
-            }
-        }if(pplayer==player2) {
 
+
+
+        }if(pplayer==player2) {
 
             System.out.println("Do you want to [h]it or [s]tand?");
             String input = sc.nextLine();
@@ -275,6 +254,11 @@ public class Main {
                 }
             }
             if (input.equals("s")) {
+                if(dealer.value < 16) {
+                    dealer.addCard(deck[dealer.numCard]);
+                    dealer.value=0;
+                    dealer.valueCardsnotPrint();
+                }
                 if (player2.value > 21) {
                     player2.busted();
                     System.out.println("Press r to restart");
@@ -282,6 +266,7 @@ public class Main {
                     if (restart.equals("r")) {
                         restartGame();
                     }
+
                 }else {
                     dealersTurn(player2);
                 }
@@ -294,12 +279,7 @@ public class Main {
     public void dealersTurn(Player compare){
 
         if(compare == player) {
-            if(dealer.value < 16) {
-                dealer.addCard(deck[dealer.numCard]);
-                dealer.value=0;
-                dealer.valueCardsnotPrint();
 
-            }
 
             System.out.println("-----Player 1's results-----");
             if (dealer.value == 21) {
@@ -319,6 +299,32 @@ public class Main {
 
             }
             System.out.println("Dealer had " + dealer.value + " value in cards");
+            for(int i = 0; i < dealer.numCard; i++){
+                dealer.hand[i] = null;
+            }
+            dealer.numCard = 0;
+            dealer.value = 0;
+            dealer.addCard(deck[tempCards]);
+            tempCards++;
+            dealer.addCard(deck[tempCards]);
+            tempCards++;
+            for(int i = 0; i < dealer.numCard; ++i){
+                if(i == 0){
+                    dealer.hand[i].isUp = true;
+                }
+                else{
+                    dealer.hand[i].isUp = false;
+                }
+            }
+            System.out.println("-----New Dealer Cards-----");
+            for(int i = 0; i < dealer.numCard; ++i){
+                if(dealer.hand[i].isUp){
+                    dealer.hand[i].printCard();
+                }else{
+                    System.out.println("*hidden card*");
+                }
+            }
+            dealer.valueCardsnotPrint();
         }
 
         if(compare == player2) {
