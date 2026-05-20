@@ -22,32 +22,39 @@ public class Player {
         value = 0;
         boolean isAce = false;
         for (int i = 0; i < numCard; ++i){
-            value += hand[i].value + 1;
-            if(hand[i].value >= 10){
-                value += 10;
-            }
             if(hand[i].value == 0){
                 isAce = true;
             }
-        }if(value + 11 < 21 && isAce){
-            value += 11;
+            else if(hand[i].value >= 10){
+                value += 10;
+
+            }else{
+                value += hand[i].value + 1;
+            }
+
+        }if(value + 10 < 21 && isAce){
+            value += 10;
         }
 
         System.out.println("The total value is " + value);
         return value;
     }
     public void valueCardsnotPrint(){
+        value = 0;
         boolean isAce = false;
         for (int i = 0; i < numCard; ++i){
-            value += hand[i].value + 1;
-            if(hand[i].value >= 10){
-                value += 10;
-            }
             if(hand[i].value == 0){
                 isAce = true;
             }
-        }if(value + 11 < 21 && isAce){
-            value += 11;
+            else if(hand[i].value >= 10){
+                value += 10;
+
+            }else{
+                value += hand[i].value + 1;
+            }
+
+        }if(value + 10 < 21 && isAce){
+            value += 10;
         }
     }
 

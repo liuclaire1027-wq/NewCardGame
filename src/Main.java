@@ -195,7 +195,7 @@ public class Main {
                 player.value = 0;
                 System.out.println("The card you drawed was:");
                 player.hand[player.numCard-1].printCard();
-                System.out.println("The total value of your cards is now:");
+                //System.out.println("The total value of your cards is now:");
                 player.valueCards();
 
                 if (player.value == 21) {
@@ -231,7 +231,7 @@ public class Main {
                 player2.value = 0;
                 System.out.println("The card you drawed was:");
                 player2.hand[player2.numCard-1].printCard();
-                System.out.println("The total value of your cards is now:");
+                //System.out.println("The total value of your cards is now:");
                 player2.valueCards();
 
                 if (player2.value == 21) {
@@ -255,8 +255,8 @@ public class Main {
             }
             if (input.equals("s")) {
                 if(dealer.value < 16) {
-                    dealer.addCard(deck[dealer.numCard]);
-                    dealer.value=0;
+                    dealer.addCard(deck[tempCards]);
+
                     dealer.valueCardsnotPrint();
                 }
                 if (player2.value > 21) {
