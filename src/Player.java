@@ -24,6 +24,7 @@ public class Player {
         for (int i = 0; i < numCard; ++i){
             if(hand[i].value == 0){
                 isAce = true;
+                value += hand[i].value + 1;
             }
             else if(hand[i].value >= 10){
                 value += 10;
@@ -45,8 +46,9 @@ public class Player {
         for (int i = 0; i < numCard; ++i){
             if(hand[i].value == 0){
                 isAce = true;
+                value += hand[i].value + 1;
             }
-            else if(hand[i].value >= 10){
+            if(hand[i].value >= 10){
                 value += 10;
 
             }else{
@@ -71,10 +73,12 @@ public class Player {
 
     public void busted(){
         System.out.println("You lose!");
+        bust = true;
 
     }
     public void dealerBusted(){
         System.out.println("Dealer was busted!");
+        bust = true;
     }
 
 

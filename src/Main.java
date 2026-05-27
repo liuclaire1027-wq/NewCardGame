@@ -67,15 +67,14 @@ public class Main {
         player.valueCards();
 
         System.out.println("-----------------");
-        playersTurn(player);
-        System.out.println("-----------------");
         System.out.println("Player 2's Cards are");
         for(int i = 0; i < player2.numCard; ++i){
             player2.hand[i].printCard();
         }
         player2.valueCards();
         System.out.println("-----------------");
-        playersTurn(player2);
+        playersTurn(player);
+
 
 
 
@@ -146,7 +145,16 @@ public class Main {
         player2.addCard(deck[tempCards]);
         tempCards++;
         System.out.println("-----------NEW GAME-----------");
-        valuePrintCards();
+        //valuePrintCards();
+        System.out.println("-----Dealer Cards-----");
+        for(int i = 0; i < dealer.numCard; ++i){
+            if(dealer.hand[i].isUp){
+                dealer.hand[i].printCard();
+            }else{
+                System.out.println("*hidden card*");
+            }
+        }
+        System.out.println("-----------------");
 
         System.out.println("Player 1's Cards are");
         for(int i = 0; i < player.numCard; ++i){
@@ -155,16 +163,13 @@ public class Main {
         player.valueCards();
 
         System.out.println("-----------------");
-        playersTurn(player);
-        System.out.println("-----------------");
         System.out.println("Player 2's Cards are");
         for(int i = 0; i < player2.numCard; ++i){
             player2.hand[i].printCard();
         }
         player2.valueCards();
-        System.out.println("-----------------");
-
-        playersTurn(player2);
+        System.out.println("-------------------");
+        playersTurn(player);
 
 
     }
@@ -186,6 +191,7 @@ public class Main {
     public void playersTurn(Player pplayer){
 
         if(pplayer==player) {
+            System.out.println("-----Player 1's turn-----");
             System.out.println("Do you want to [h]it or [s]tand?");
             String input = sc.nextLine();
             if (input.equals("h")) {
@@ -204,6 +210,7 @@ public class Main {
                 }
                 if (player.value > 21) {
                     player.busted();
+                    playersTurn(player2);
                 } else {
                     playersTurn(player);
                 }
@@ -214,14 +221,14 @@ public class Main {
                     player.busted();
                     playersTurn(player2);
                 }else {
-                    dealersTurn(player);
+                    playersTurn(player2);
                 }
             }
 
 
 
         }if(pplayer==player2) {
-
+            System.out.println("-----Player 2's turn-----");
             System.out.println("Do you want to [h]it or [s]tand?");
             String input = sc.nextLine();
             if (input.equals("h")) {
@@ -236,50 +243,46 @@ public class Main {
 
                 if (player2.value == 21) {
                     System.out.println("You win!");
-                    System.out.println("Press r to restart");
-                    String restart = sc.nextLine();
-                    if(restart.equals("r")){
-                        restartGame();
-                    }
+                    dealerAddCards();
                 }
                 if (player2.value > 21) {
                     player2.busted();
-                    System.out.println("Press r to restart");
-                    String restart = sc.nextLine();
-                    if(restart.equals("r")){
-                        restartGame();
-                    }
+                    dealerAddCards();
                 } else {
                     playersTurn(player2);
                 }
             }
             if (input.equals("s")) {
-                if(dealer.value < 16) {
-                    dealer.addCard(deck[tempCards]);
-
-                    dealer.valueCardsnotPrint();
+                if(player2.value == 21){
+                    System.out.println("Player 2 wins!!");
                 }
+
                 if (player2.value > 21) {
                     player2.busted();
-                    System.out.println("Press r to restart");
-                    String restart = sc.nextLine();
-                    if (restart.equals("r")) {
-                        restartGame();
-                    }
+                    dealerAddCards();
 
                 }else {
-                    dealersTurn(player2);
+                    dealerAddCards();
                 }
             }
         }
 
 
     }
+    public void dealerAddCards(){
+        if(dealer.value < 16) {
+            dealer.addCard(deck[tempCards]);
+            ++tempCards;
+            dealer.valueCardsnotPrint();
+        }
+        if(dealer.value >= 16){
+            dealersTurn(player);
+        }
 
+    }
     public void dealersTurn(Player compare){
 
         if(compare == player) {
-
 
             System.out.println("-----Player 1's results-----");
             if (dealer.value == 21) {
@@ -288,43 +291,20 @@ public class Main {
             if (dealer.value > 21) {
                 dealer.dealerBusted();
             }
-            if (player.value > dealer.value) {
+            if (player.value > dealer.value && player.bust == false) {
                 System.out.println("Player 1 wins!");
             }
-            if (player.value < dealer.value) {
+            if (player.value < dealer.value && dealer.bust == false) {
                 System.out.println("Dealer wins!");
             }
             if (player.value == dealer.value) {
                 System.out.println("Player 1 and Dealer tied!");
 
             }
-            System.out.println("Dealer had " + dealer.value + " value in cards");
-            for(int i = 0; i < dealer.numCard; i++){
-                dealer.hand[i] = null;
-            }
-            dealer.numCard = 0;
-            dealer.value = 0;
-            dealer.addCard(deck[tempCards]);
-            tempCards++;
-            dealer.addCard(deck[tempCards]);
-            tempCards++;
-            for(int i = 0; i < dealer.numCard; ++i){
-                if(i == 0){
-                    dealer.hand[i].isUp = true;
-                }
-                else{
-                    dealer.hand[i].isUp = false;
-                }
-            }
-            System.out.println("-----New Dealer Cards-----");
-            for(int i = 0; i < dealer.numCard; ++i){
-                if(dealer.hand[i].isUp){
-                    dealer.hand[i].printCard();
-                }else{
-                    System.out.println("*hidden card*");
-                }
-            }
-            dealer.valueCardsnotPrint();
+            System.out.println("Player 1's card value was " + player.value);
+            dealersTurn(player2);
+
+
         }
 
         if(compare == player2) {
@@ -335,15 +315,16 @@ public class Main {
             if (dealer.value > 21) {
                 dealer.dealerBusted();
             }
-            if (player2.value > dealer.value) {
+            if (player2.value > dealer.value && player2.bust == false) {
                 System.out.println("Player 2 wins!");
             }
-            if (player2.value < dealer.value) {
+            if (player2.value < dealer.value && dealer.bust == false) {
                 System.out.println("Dealer wins!");
             }
             if (player2.value == dealer.value) {
                 System.out.println("Player 2 and Dealer tied!");
             }
+            System.out.println("Player 2's card value was " + player2.value);
             System.out.println("The value of the dealers cards was " + dealer.value);
             System.out.println("Press r to restart");
             String input = sc.nextLine();

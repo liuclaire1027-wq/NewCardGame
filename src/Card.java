@@ -5,6 +5,7 @@ public class Card {
 
 
 
+
     public Card(int pvalue, String psuit, boolean pisUp){
         value = pvalue;
         suit = psuit;
