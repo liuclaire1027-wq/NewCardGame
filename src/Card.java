@@ -2,7 +2,7 @@ public class Card {
     public int value;
     public String suit;
     public boolean isUp;
-
+    public int suitnum;
 
 
 
@@ -11,6 +11,15 @@ public class Card {
         suit = psuit;
         isUp = pisUp;
         printCard();
+        if(suit == "clubs"){
+            suitnum = 0;
+        }if (suit == "diamonds"){
+            suitnum = 1;
+        }if (suit == "spades"){
+            suitnum = 2;
+        }if( suit == "hearts"){
+            suitnum = 3;
+        }
     }
 
     public void printCard(){
